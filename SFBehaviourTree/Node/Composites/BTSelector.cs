@@ -1,36 +1,43 @@
-﻿using SFBehaviourTree.Context;
+﻿using System.Collections.Generic;
+using SFBehaviourTree.Context;
 
 namespace SFBehaviourTree.Node.Composites
 {
     public class BTSelector : INode
     {
-        private INode[] nodes;
+        private List<INode> nodes;
+        private int index;
 
-        public BTSelector(params INode[] nodes)
+        public BTSelector()
         {
-            this.nodes = nodes;
+            this.nodes = new List<INode>();
+        }
+
+        public void AddNode(INode node)
+        {
+            nodes.Add(node);
         }
 
         public BTResult Run(BTContext btContext)
         {
-            foreach (var node in nodes)
+            while (index < nodes.Count)
             {
-                var result = node.Run(btContext);
-                if (result != BTResult.Failure)
+                var result = nodes[index].Run(btContext);
+                if (result == BTResult.Success)
                 {
-                    return result;
+                    index = 0;
+                    return BTResult.Success;
                 }
+                else if (result == BTResult.Running)
+                {
+                    return BTResult.Running;
+                }
+
+                index++;
             }
 
+            index = 0;
             return BTResult.Failure;
-        }
-
-        public void Reset()
-        {
-            foreach (var node in nodes)
-            {
-                node.Reset();
-            }
         }
     }
 }

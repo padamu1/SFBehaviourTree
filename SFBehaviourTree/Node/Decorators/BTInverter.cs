@@ -26,9 +26,5 @@ namespace SFBehaviourTree.Node.Decorators
 
             return result;
         }
-        public void Reset()
-        {
-            node.Reset();
-        }
     }
 }

@@ -29,11 +29,5 @@ namespace SFBehaviourTree.Node.Decorators
 
             return playCount >= repeatCount ? BTResult.Success : BTResult.Running;
         }
-
-        public void Reset()
-        {
-            playCount = 0;
-            node.Reset();
-        }
     }
 }

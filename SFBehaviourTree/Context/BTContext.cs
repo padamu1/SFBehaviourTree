@@ -1,4 +1,7 @@
-﻿namespace SFBehaviourTree.Context
+﻿using System;
+using System.Collections.Generic;
+
+namespace SFBehaviourTree.Context
 {
     public class BTContext
     {

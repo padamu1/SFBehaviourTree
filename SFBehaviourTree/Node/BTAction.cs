@@ -1,4 +1,5 @@
-﻿using SFBehaviourTree.Context;
+﻿using System;
+using SFBehaviourTree.Context;
 
 namespace SFBehaviourTree.Node
 {
@@ -14,11 +15,6 @@ namespace SFBehaviourTree.Node
         public BTResult Run(BTContext btContext)
         {
             return action(btContext);
-        }
-
-        public void Reset()
-        {
-
         }
     }
 }

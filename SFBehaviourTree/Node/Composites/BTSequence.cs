@@ -1,15 +1,16 @@
-﻿using SFBehaviourTree.Context;
+﻿using System.Collections.Generic;
+using SFBehaviourTree.Context;
 
 namespace SFBehaviourTree.Node.Composites
 {
     public class BTSequence : INode
     {
         private int index;
+
         private List<INode> nodes;
 
         public BTSequence()
         {
-            index = 0;
             nodes = new List<INode>();
         }
 
@@ -21,31 +22,22 @@ namespace SFBehaviourTree.Node.Composites
 
         public BTResult Run(BTContext btContext)
         {
-            BTResult nodeResult = nodes[index].Run(btContext);
-            if (nodeResult == BTResult.Success)
+            while (index < nodes.Count)
             {
-                ++index;
-
-                if (index >= nodes.Count)
+                BTResult nodeResult = nodes[index].Run(btContext);
+                if (nodeResult == BTResult.Failure)
                 {
-                    index = 0;
+                    return BTResult.Failure;
                 }
-            }
-            else if (nodeResult == BTResult.Failure)
-            {
-                index = 0;
+                else if (nodeResult == BTResult.Running)
+                {
+                    return BTResult.Running;
+                }
+                 
+                index++;
             }
 
-            return nodeResult;
-        }
-
-        public void Reset()
-        {
-            index = 0;
-            foreach (INode node in nodes)
-            {
-                node.Reset();
-            }
+            return BTResult.Success;
         }
     }
 }

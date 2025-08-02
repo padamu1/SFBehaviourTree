@@ -1,4 +1,7 @@
-﻿using SFBehaviourTree.Context;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SFBehaviourTree.Context;
 using SFBehaviourTree.Node;
 using SFBehaviourTree.Node.Composites;
 using SFBehaviourTree.Node.Decorators;
@@ -28,19 +31,18 @@ namespace SFBehaviourTree.Core
 
         public BTBuilder Selector(params INode[] nodes)
         {
-            sequenceStack.Peek().Node(new BTSelector(nodes));
+            var selector = new BTSelector();
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                selector.AddNode(nodes[i]);
+            }
+            sequenceStack.Peek().Node(selector);
             return this;
         }
 
-        public BTBuilder RandomSelector(params INode[] nodes)
+        public BTBuilder Conditional(Func<BTContext, bool> condition)
         {
-            sequenceStack.Peek().Node(new BTRandomSelector(nodes));
-            return this;
-        }
-
-        public BTBuilder Conditional(Func<BTContext, bool> condition, INode node)
-        {
-            sequenceStack.Peek().Node(new BTConditional(condition, node));
+            sequenceStack.Peek().Node(new BTConditional(condition));
             return this;
         }
 

@@ -1,4 +1,7 @@
-﻿namespace SFBehaviourTree.Random
+﻿using System;
+using System.Threading;
+
+namespace SFBehaviourTree.Random
 {
     public class RInt
     {
