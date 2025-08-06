@@ -21,5 +21,3 @@ var aiTree = BTBuilder.Build()
     .Complete();
 
 ```
-
-Working with cursor ai
